@@ -54,7 +54,7 @@
 	<link id="color_scheme" href="{{ asset('user/')}}/css/theme.css" rel="stylesheet">
 	<link href="{{ asset('user/')}}/css/responsive.css" rel="stylesheet">
 	<link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="sweetalert2.min.css">
+
 
 
 	{{--  new css   --}}
@@ -210,77 +210,25 @@
 	//-->
 </script>
 
+@php  
+  $category=DB::table('category')->get();
+@endphp
 	<!-- Footer Container -->
 	<footer class="footer-container type_footer1">
 		<!-- Footer Top Container -->
 		<section class="footer-top">
 			<div class="container content">
 				<div class="row">
-					<div class="col-sm-6 col-md-3 box-information">
+					<div class="col-sm-6 col-md-9 box-information">
 						<div class="module clearfix">
-							<h3 class="modtitle">Information</h3>
+							<h3 class="modtitle">Display All Category and Subcategory</h3>
 							<div class="modcontent">
-								<ul class="menu">
-									<li><a href="about-us.html">About Us</a></li>
-									<li><a href="faq.html">FAQ</a></li>
-									<li><a href="order-history.html">Order history</a></li>
-									<li><a href="order-information.html">Order information</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-sm-6 col-md-3 box-service">
-						<div class="module clearfix">
-							<h3 class="modtitle">Customer Service</h3>
-							<div class="modcontent">
-								<ul class="menu">
-									<li><a href="contact.html">Contact Us</a></li>
-									<li><a href="return.html">Returns</a></li>
-									<li><a href="sitemap.html">Site Map</a></li>
-									<li><a href="my-account.html">My Account</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-sm-6 col-md-3 box-account">
-						<div class="module clearfix">
-							<h3 class="modtitle">My Account</h3>
-							<div class="modcontent">
-								<ul class="menu">
-									<li><a href="#">Brands</a></li>
-									<li><a href="gift-voucher.html">Gift Vouchers</a></li>
-									<li><a href="#">Affiliates</a></li>
-									<li><a href="#">Specials</a></li>
-									<li><a href="#" target="_blank">Our Blog</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-sm-6 col-md-3 collapsed-block ">
-						<div class="module clearfix">
-							<h3 class="modtitle">Contact Us	</h3>
-							<div class="modcontent">
-								<ul class="contact-address">
-									<li><span class="fa fa-map-marker"></span> {{ $settings->address }}</li>
-									<li><span class="fa fa-envelope-o"></span> Email: <a href="#"> {{ $settings->email }}</a></li>
-									<li><span class="fa fa-phone">&nbsp;</span> Phone 1: {{ $settings->phone }} <br>Phone 2: {{ $settings->phone_optional }}</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-
-@php  
-  $category=DB::table('category')->get();
-@endphp
-					<div class="col-sm-12 collapsed-block footer-links">
+							<div class="col-sm-12 collapsed-block footer-links">
 						<div class="module clearfix">
 							<div class="modcontent">
 								<hr class="footer-lines">
 								<div class="footer-directory-title">
-									<h4 class="label-link">Top Stores : Brand Directory | Store Directory</h4>
+									
 									<ul class="footer-directory">
 										@foreach($category as $cat)
 										<li>
@@ -303,6 +251,26 @@
 							</div>
 						</div>
 					</div>
+							</div>
+						</div>
+					</div>
+
+					
+
+					<div class="col-sm-6 col-md-3 collapsed-block ">
+						<div class="module clearfix">
+							<h3 class="modtitle">Contact Us	</h3>
+							<div class="modcontent">
+								<ul class="contact-address">
+									<li><span class="fa fa-map-marker"></span> {{ $settings->address }}</li>
+									<li><span class="fa fa-envelope-o"></span> Email: <a href="#"> {{ $settings->email }}</a></li>
+									<li><span class="fa fa-phone">&nbsp;</span> Phone 1: {{ $settings->phone }} <br>Phone 2: {{ $settings->phone_optional }}</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+				
 				</div>
 			</div>
 		</section>
@@ -312,7 +280,7 @@
 		<div class="footer-bottom-block ">
 			<div class=" container">
 				<div class="row">
-					<div class="col-sm-5 copyright-text"> © 2021 Dipak. All Rights Reserved. </div>
+					<div class="col-sm-5 copyright-text"> © 2021  HASIBUL HASAN SHOHAN. All Rights Reserved. </div>
 					<div class="col-sm-7">
 						<div class="block-payment text-right"><img src="{{ asset('user/')}}/image/demo/content/payment.png" alt="payment" title="payment" ></div>
 					</div>
@@ -411,7 +379,7 @@
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
  <script src="{{ asset('https://unpkg.com/sweetalert/dist/sweetalert.min.js')}}"></script>
 <script>
 	@if(Session::has('message'))

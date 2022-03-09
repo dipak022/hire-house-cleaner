@@ -34,13 +34,36 @@ class FrontendController extends Controller
 
     public function ProductView($id,$product_name)
     {
+        
         $product=DB::table('products')
         ->join('category','products.category_id','category.id')
         ->join('subcategory','products.subcategory_id','subcategory.id')
         ->select('products.*','category.categoty_name','subcategory.subcategory_name')->where('products.id',$id)->first();
+        $rating = DB::table('rating')->where('products_id',$product->id)->get();
+        $rating_sum = DB::table('rating')->where('products_id',$product->id)->sum('rating');
+        if($rating->count() > 0){
+            $rating_value = $rating_sum/$rating->count();
+        }else{
+            $rating_value = 0;
+        }
 
 
-      return  view('user.product_details',compact('product'));
+         $rating_details=DB::table('rating')
+        ->join('users','rating.users_id','users.id')
+        ->where('rating.products_id',$product->id)
+        ->select('rating.*','users.name')->get();
+         $rating_found = DB::table('rating')->where('products_id',$product->id)->get();
+         if($rating_details){
+            return  view('user.product_details',compact('product','rating','rating_value','rating_details','rating_found'));
+
+         }else{
+            return $rating_details= "nai";
+            return  view('user.product_details',compact('product','rating','rating_value','rating_details','rating_found'));
+         }
+        
+        
+
+       // return  view('user.product_details',compact('product','rating','rating_value','rating_details','rating_found'));
     }
 
 

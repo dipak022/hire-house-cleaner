@@ -256,3 +256,7 @@ Route::post('store/technician/assign/', [App\Http\Controllers\Technician\AssignC
 Route::get('technician/assign/complate/{id}', [App\Http\Controllers\Technician\AssignController::class,'technician_assign_complate']);
 Route::get('technician/assign/delete/{id}', [App\Http\Controllers\Technician\AssignController::class,'technician_assign_delete']);
 
+
+//store.review
+Route::post('store/technician/assign/', [App\Http\Controllers\ReviewController::class, 'store'])->name('store.review');
+

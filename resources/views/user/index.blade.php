@@ -1,7 +1,7 @@
 @extends('layouts.user.app')
 @php
 $products=DB::table('products')->where('status',1)->orderBy('id','desc')->limit(200)->get(); 
-$newproduct=DB::table('products')->where('status',1)->where('new_product',1)->orderBy('id','desc')->limit(200)->get();
+$newproduct=DB::table('products')->where('status',1)->where('new_product',1)->orderBy('id','asc')->limit(200)->get();
 
 @endphp
 @php

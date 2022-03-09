@@ -2,6 +2,38 @@
 @section('content')
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 @include('layouts.user.manubar')
+<style>
+	/* rating */
+.rating-css div {
+    color: #ffe400;
+    font-size: 30px;
+    font-family: sans-serif;
+    font-weight: 800;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 20px 0;
+  }
+  .rating-css input {
+    display: none;
+  }
+  .rating-css input + label {
+    font-size: 60px;
+    text-shadow: 1px 1px 0 #8f8420;
+    cursor: pointer;
+  }
+  .rating-css input:checked + label ~ label {
+    color: #b4afaf;
+  }
+  .rating-css label:active {
+    transform: scale(0.8);
+    transition: 0.3s ease;
+  }
+  .checked{
+	  color:#ffd900;
+  }
+
+/* End of Star Rating */
+</style>
 	</header>
 	<!-- Main Container  -->
 	<div class="main-container container">
@@ -81,6 +113,7 @@
 									</div>
 									
 								</div>
+								
 
 								@if($product->approximate != null)
 								<div class="product-box-desc">
@@ -101,6 +134,25 @@
 									</div>
 								</div>
 								@endif
+								<br/>
+								@php $ratenum = number_format($rating_value) @endphp
+                                <div class="rating">
+									@for($i=1; $i<=$ratenum; $i++)
+								    <i class="fa fa-star checked"></i>
+									@endfor
+									@for($j=$ratenum+1; $j<=5; $j++)
+									<i class="fa fa-star"></i>
+									@endfor
+									
+									<span> 
+										@if($rating->count() > 0)
+									      {{$rating->count()}} Ratings
+										@else
+										   No Ratings
+										@endif
+							     	</span>
+									
+								</div>
 
 
 								<div id="product">
@@ -151,24 +203,34 @@
 	<div class="tabsslider  col-xs-12">
 		<ul class="nav nav-tabs">
 			<li class="active"><a data-toggle="tab" href="#tab-1">Description</a></li>
-			<li class="item_nonactive"><a data-toggle="tab" href="#tab-review">Reviews (1)</a></li>
+			<li class="item_nonactive"><a data-toggle="tab" href="#tab-review">Reviews (<span>Already {{ $rating->count()}} Ratings</span>)</a></li>
 			<li class="item_nonactive"><a data-toggle="tab" href="#tab-4">Comment Box</a></li>
-			<li class="item_nonactive"><a data-toggle="tab" href="#tab-5">Custom Tab</a></li>
+			<li class="item_nonactive"><a data-toggle="tab" href="#tab-5">Show Rating Comment</a></li>
 		</ul>
 		<div class="tab-content col-xs-12">
 			<div id="tab-1" class="tab-pane fade active in">
 				<p>
+					
 					{!! $product->product_details !!}
+					
+					
 				</p>	
 			</div>
 			<div id="tab-review" class="tab-pane fade">
-				<form>
+			<form class="add-contact-form" method="post" action="{{ route('store.review') }}"enctype="multipart/form-data">    
+               @csrf
+			      <input type="hidden"  name="product_id" value="{{ $product->id }}" id="rating3">
 					<div id="review">
 						<table class="table table-striped table-bordered">
 							<tbody>
 								<tr>
-									<td style="width: 50%;"><strong>Super Administrator</strong></td>
-									<td class="text-right">29/07/2015</td>
+									@if(Auth::user())
+									<td style="width: 50%;"><strong>{{  Auth::user()->name }}</strong></td>
+									<td class="text-right">{{Auth::user()->mail}}</td>
+									@else
+									<td style="width: 50%;"><strong>At Frist Login Your Account</strong></td>
+									<td class="text-right"><a href="{{url('login')}}">Login</a></td>
+									@endif
 								</tr>
 								<tr>
 									
@@ -177,18 +239,32 @@
 						</table>
 						<div class="text-right"></div>
 					</div>
-					<h2 id="review-title">Write a review</h2>
+					<h2 id="review-title">Write a review here for {{ $product->product_name }}.</h2>
+                    
+                     
 					<div class="contacts-form">
-						<div class="form-group"> <span class="icon icon-user"></span>
-							<input type="text" name="name" class="form-control" value="Your Name" onblur="if (this.value == '') {this.value = 'Your Name';}" onfocus="if(this.value == 'Your Name') {this.value = '';}"> 
+					<div class="rating-css">
+						<div class="star-icon">
+							<input type="radio" value="1" name="product_rating" checked id="rating1">
+							<label for="rating1" class="fa fa-star"></label>
+							<input type="radio" value="2" name="product_rating" id="rating2">
+							<label for="rating2" class="fa fa-star"></label>
+							<input type="radio" value="3" name="product_rating" id="rating3">
+							<label for="rating3" class="fa fa-star"></label>
+							<input type="radio" value="4" name="product_rating" id="rating4">
+							<label for="rating4" class="fa fa-star"></label>
+							<input type="radio" value="5" name="product_rating" id="rating5">
+							<label for="rating5" class="fa fa-star"></label>
 						</div>
-						<div class="form-group"> <span class="icon icon-bubbles-2"></span>
-							<textarea class="form-control" name="text" onblur="if (this.value == '') {this.value = 'Your Review';}" onfocus="if(this.value == 'Your Review') {this.value = '';}">Your Review</textarea>
-						</div> 
-						<span style="font-size: 11px;"><span class="text-danger">Note:</span>						HTML is not translated!</span>
+					</div>
+
+					<input type="text" class="form-control" placeholder="Enter Comment here"   name="comment" >
+
+
+					
 						
 						
-						<div class="buttons clearfix"><a id="button-review" class="btn buttonGray">Continue</a></div>
+						<div class="buttons clearfix" ><button type="submit" id="button-review" class="btn buttonGray">Submit</button></div>
 					</div>
 				</form>
 			</div>
@@ -197,30 +273,35 @@
 							
 			</div>
 			<div id="tab-5" class="tab-pane fade">
-				<p>Lorem ipsum dolor sit amet, consetetur
-					sadipscing elitr, sed diam nonumy eirmod
-					tempor invidunt ut labore et dolore
-					magna aliquyam erat, sed diam voluptua.
-					At vero eos et accusam et justo duo
-					dolores et ea rebum. Stet clita kasd
-					gubergren, no sea takimata sanctus est
-					Lorem ipsum dolor sit amet. Lorem ipsum
-					dolor sit amet, consetetur sadipscing
-					elitr, sed diam nonumy eirmod tempor
-					invidunt ut labore et dolore magna aliquyam
-					erat, sed diam voluptua. </p>
-				<p>At vero eos et accusam et justo duo dolores
-					et ea rebum. Stet clita kasd gubergren,
-					no sea takimata sanctus est Lorem ipsum
-					dolor sit amet. Lorem ipsum dolor sit
-					amet, consetetur sadipscing elitr.</p>
-				<p>Sed diam nonumy eirmod tempor invidunt
-					ut labore et dolore magna aliquyam erat,
-					sed diam voluptua. At vero eos et accusam
-					et justo duo dolores et ea rebum. Stet
-					clita kasd gubergren, no sea takimata
-					sanctus est Lorem ipsum dolor sit amet.</p>
+			<h1><b> Review here for {{ $product->product_name }}.</b></h1>
+			<hr>
+			@if(!$rating_value==0)
+				@foreach($rating_details as $rat)
+				<h2><b> Name : {{$rat->name}}.</b></h2>
+				
+					<div class="rating">
+						<span><b>Ratings  :  </b> </span>
+						@for($i=1; $i<=$rat->rating; $i++)
+						<i class="fa fa-star checked"></i>
+						@endfor
+						@for($j=$rat->rating +1; $j<=5; $j++)
+						<i class="fa fa-star"></i>
+						@endfor
+						({{$rat->rating}}Rating).
+						
+
+						
+					</div>
+				 	
+					<h3><b><p>Comment :  {{$rat->comment}}</p></b></h3>
+					<hr>
+				@endforeach
+			@else
+			<h2><b> This Service  Not Review becouse Service is new added thank you.</b></h2>
+			@endif	
+				
 			</div>
+
 		</div>
 	</div>
 </div>

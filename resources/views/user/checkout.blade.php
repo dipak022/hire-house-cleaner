@@ -79,7 +79,13 @@
 								<label for="input-payment-country" class="control-label">Area</label>
 								<select class="form-control" id="input-payment-country" name="country_id">
 								  <option value=""> --- Please Select --- </option>
-								  <option value="Sutrapur">Sutrapur</option>
+								  <option value="Dhanmondi">Dhanmondi</option>
+								  <option value="Uttora">Uttora</option>
+								  <option value="poran Dhaka">Poran Dhaka</option>
+								  <option value="Framget">Framget</option>
+								  <option value="Gulsan">Gulsan</option>
+								  <option value="Bonani">Bonani</option>
+								  <option value="Gabtoli">Gabtoli</option>
 								 
 								  
 								</select>
